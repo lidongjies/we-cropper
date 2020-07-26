@@ -1043,7 +1043,7 @@ var handle = {
   }
 };
 
-function cut () {
+function cut() {
   var self = this;
   var boundWidth = self.width; // 裁剪框默认宽度，即整个画布宽度
   var boundHeight = self.height;
@@ -1055,57 +1055,35 @@ function cut () {
   var height = ref.height; if ( height === void 0 ) height = boundHeight;
 
   /**
-	 * 设置边界
-	 * @param imgLeft 图片左上角横坐标值
-	 * @param imgTop 图片左上角纵坐标值
-	 */
+   * 设置边界
+   * @param imgLeft 图片左上角横坐标值
+   * @param imgTop 图片左上角纵坐标值
+   */
   self.outsideBound = function (imgLeft, imgTop) {
-    self.imgLeft = imgLeft >= x
-      ? x
-      : self.scaleWidth + imgLeft - x <= width
+    self.imgLeft =
+      imgLeft >= x
+        ? x
+        : self.scaleWidth + imgLeft - x <= width
         ? x + width - self.scaleWidth
-        :	imgLeft;
+        : imgLeft;
 
-    self.imgTop = imgTop >= y
-      ? y
-      : self.scaleHeight + imgTop - y <= height
+    self.imgTop =
+      imgTop >= y
+        ? y
+        : self.scaleHeight + imgTop - y <= height
         ? y + height - self.scaleHeight
         : imgTop;
   };
 
   /**
-	 * 设置边界样式
-	 * @param color	边界颜色
-	 */
+   * 设置边界样式
+   * @param color	边界颜色
+   */
   self.setBoundStyle = function (ref) {
     if ( ref === void 0 ) ref = {};
-    var color = ref.color; if ( color === void 0 ) color = '#04b00f';
+    var color = ref.color; if ( color === void 0 ) color = '#fff';
     var mask = ref.mask; if ( mask === void 0 ) mask = 'rgba(0, 0, 0, 0.3)';
     var lineWidth = ref.lineWidth; if ( lineWidth === void 0 ) lineWidth = 1;
-
-    var half = lineWidth / 2;
-    var boundOption = [
-      {
-        start: { x: x - half, y: y + 10 - half },
-        step1: { x: x - half, y: y - half },
-        step2: { x: x + 10 - half, y: y - half }
-      },
-      {
-        start: { x: x - half, y: y + height - 10 + half },
-        step1: { x: x - half, y: y + height + half },
-        step2: { x: x + 10 - half, y: y + height + half }
-      },
-      {
-        start: { x: x + width - 10 + half, y: y - half },
-        step1: { x: x + width + half, y: y - half },
-        step2: { x: x + width + half, y: y + 10 - half }
-      },
-      {
-        start: { x: x + width + half, y: y + height - 10 + half },
-        step1: { x: x + width + half, y: y + height + half },
-        step2: { x: x + width - 10 + half, y: y + height + half }
-      }
-    ];
 
     // 绘制半透明层
     self.ctx.beginPath();
@@ -1116,15 +1094,27 @@ function cut () {
     self.ctx.fillRect(x + width, 0, boundWidth - x - width, boundHeight);
     self.ctx.fill();
 
-    boundOption.forEach(function (op) {
+    // 水平线
+    var yGap = height / 3;
+    for (var i = 0; i < 4; i++) {
       self.ctx.beginPath();
       self.ctx.setStrokeStyle(color);
       self.ctx.setLineWidth(lineWidth);
-      self.ctx.moveTo(op.start.x, op.start.y);
-      self.ctx.lineTo(op.step1.x, op.step1.y);
-      self.ctx.lineTo(op.step2.x, op.step2.y);
+      self.ctx.moveTo(x, y + yGap * i);
+      self.ctx.lineTo(x + width, y + yGap * i);
       self.ctx.stroke();
-    });
+    }
+
+    // 垂直线
+    var xGap = width / 3;
+    for (var i$1 = 0; i$1 < 4; i$1++) {
+      self.ctx.beginPath();
+      self.ctx.setStrokeStyle(color);
+      self.ctx.setLineWidth(lineWidth);
+      self.ctx.moveTo(x + xGap * i$1, y);
+      self.ctx.lineTo(x + xGap * i$1, y + height);
+      self.ctx.stroke();
+    }
   };
 }
 
