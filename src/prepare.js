@@ -34,12 +34,13 @@ export default function prepare () {
   self.createCtx = () => {
     const {
       id,
-      targetId
+      targetId,
+      wx // 如果是自定义组件中使用cropper，需要传入自定义组件的实例
     } = self
 
     if (id) {
-      self.ctx = self.ctx || wx.createCanvasContext(id)
-      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId)
+      self.ctx = self.ctx || wx.createCanvasContext(id, wx)
+      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId, wx)
     } else {
       console.error(`constructor: create canvas context failed, 'id' must be valuable`)
     }
