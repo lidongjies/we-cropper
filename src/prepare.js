@@ -35,12 +35,12 @@ export default function prepare () {
     const {
       id,
       targetId,
-      component // 如果是自定义组件中使用cropper，需要传入自定义组件的实例
+      scope // 如果是自定义组件中使用cropper，需要传入自定义组件的实例
     } = self
 
     if (id) {
-      self.ctx = self.ctx || wx.createCanvasContext(id, component)
-      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId, component)
+      self.ctx = self.ctx || wx.createCanvasContext(id, scope)
+      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId, scope)
     } else {
       console.error(`constructor: create canvas context failed, 'id' must be valuable`)
     }

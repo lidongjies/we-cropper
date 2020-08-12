@@ -223,11 +223,11 @@ function prepare () {
   self.createCtx = function () {
     var id = self.id;
     var targetId = self.targetId;
-    var component = self.component;
+    var scope = self.scope;
 
     if (id) {
-      self.ctx = self.ctx || wx.createCanvasContext(id, component);
-      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId, component);
+      self.ctx = self.ctx || wx.createCanvasContext(id, scope);
+      self.targetCtx = self.targetCtx || wx.createCanvasContext(targetId, scope);
     } else {
       console.error("constructor: create canvas context failed, 'id' must be valuable");
     }
