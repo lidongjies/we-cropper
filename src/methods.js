@@ -29,8 +29,9 @@ export default function methods () {
   } = self.cut
 
   self.updateCanvas = (done) => {
+    self.ctx.save()
+    isFunc(self.onBeforeDraw) && self.onBeforeDraw(self.ctx, self)
     if (self.croperTarget) {
-      //  画布绘制图片
       self.ctx.drawImage(
         self.croperTarget,
         self.imgLeft,
@@ -39,10 +40,9 @@ export default function methods () {
         self.scaleHeight
       )
     }
-    isFunc(self.onBeforeDraw) && self.onBeforeDraw(self.ctx, self)
+    self.ctx.restore()
 
-    self.setBoundStyle(self.boundStyle) //	设置边界样式
-
+    self.setBoundStyle(self.boundStyle)
     self.ctx.draw(false, done)
     return self
   }

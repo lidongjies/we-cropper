@@ -755,8 +755,9 @@ function methods () {
   var height = ref.height; if ( height === void 0 ) height = boundHeight;
 
   self.updateCanvas = function (done) {
+    self.ctx.save();
+    tools_7(self.onBeforeDraw) && self.onBeforeDraw(self.ctx, self);
     if (self.croperTarget) {
-      //  画布绘制图片
       self.ctx.drawImage(
         self.croperTarget,
         self.imgLeft,
@@ -765,10 +766,9 @@ function methods () {
         self.scaleHeight
       );
     }
-    tools_7(self.onBeforeDraw) && self.onBeforeDraw(self.ctx, self);
+    self.ctx.restore();
 
-    self.setBoundStyle(self.boundStyle); //	设置边界样式
-
+    self.setBoundStyle(self.boundStyle);
     self.ctx.draw(false, done);
     return self
   };
